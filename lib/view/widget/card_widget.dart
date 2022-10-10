@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_woocommerce/view/widget/text_widget.dart';
-import 'package:sizer/sizer.dart';
 
-class FavouriteCard extends StatelessWidget {
+class CardWidget extends StatelessWidget {
   final String img;
   final bool ifNetworkImage;
   final String title;
@@ -14,7 +13,7 @@ class FavouriteCard extends StatelessWidget {
   // ignore: prefer_typing_uninitialized_variables
   final secondIcon;
 
-  const FavouriteCard(
+  const CardWidget(
       {Key? key,
       required this.img,
       required this.ifNetworkImage,

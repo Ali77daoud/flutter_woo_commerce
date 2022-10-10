@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_woocommerce/logic/controllers/products_controller.dart';
-import 'package:flutter_woocommerce/routes/routes.dart';
+import 'package:flutter_woocommerce/logic/controllers/store_controller.dart';
 import 'package:flutter_woocommerce/utils/app_theme.dart';
 import 'package:flutter_woocommerce/view/widget/text_widget.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,7 @@ import 'package:get/get.dart';
 class CategoriesItems extends StatelessWidget {
   CategoriesItems({Key? key}) : super(key: key);
 
-  final productController = Get.put(StoreController());
+  final storeController = Get.put(StoreController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,7 @@ class CategoriesItems extends StatelessWidget {
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              itemCount: productController.categoriesData!.length,
+              itemCount: storeController.categoriesData!.length,
               separatorBuilder: (context, index) {
                 return const SizedBox(
                   width: 10,
@@ -43,7 +42,11 @@ class CategoriesItems extends StatelessWidget {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () async {
-                    Get.toNamed(Routes.productPage);
+                    print(storeController.categoriesData![index].id!.toInt());
+
+                    await storeController.getProductPageData(
+                        catId:
+                            storeController.categoriesData![index].id!.toInt());
                   },
                   child: Column(
                     children: [
@@ -55,21 +58,21 @@ class CategoriesItems extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: whiteColor,
                             shape: BoxShape.circle,
-                            image: productController
-                                        .categoriesData![index].image ==
-                                    null
-                                ? DecorationImage(
-                                    image: AssetImage(
-                                      'assets/images/shirt2.jpg'.toString(),
-                                    ),
-                                    fit: BoxFit.contain)
-                                : DecorationImage(
-                                    image: NetworkImage(
-                                      productController
-                                          .categoriesData![index].image!.imgUrl
-                                          .toString(),
-                                    ),
-                                    fit: BoxFit.contain),
+                            image:
+                                storeController.categoriesData![index].image ==
+                                        null
+                                    ? DecorationImage(
+                                        image: AssetImage(
+                                          'assets/images/shirt2.jpg'.toString(),
+                                        ),
+                                        fit: BoxFit.contain)
+                                    : DecorationImage(
+                                        image: NetworkImage(
+                                          storeController.categoriesData![index]
+                                              .image!.imgUrl
+                                              .toString(),
+                                        ),
+                                        fit: BoxFit.contain),
                             boxShadow: const [
                               BoxShadow(
                                   color: Colors.black26,
@@ -95,7 +98,7 @@ class CategoriesItems extends StatelessWidget {
                       Row(
                         children: [
                           TextWidget(
-                              text: productController
+                              text: storeController
                                   .categoriesData![index].categoryName
                                   .toString(),
                               color: blackColor,

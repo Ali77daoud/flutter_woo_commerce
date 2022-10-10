@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 
 class MainScreenController extends GetxController {
   int i = 0;
+  bool isGetProducts = false;
+  bool isGetCart = true;
 
   void changeIndex(int index) {
     i = index;

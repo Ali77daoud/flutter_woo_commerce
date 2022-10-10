@@ -5,6 +5,7 @@ import 'package:flutter_woocommerce/logic/controllers/mainscreen_controller.dart
 import 'package:flutter_woocommerce/routes/routes.dart';
 import 'package:flutter_woocommerce/utils/app_theme.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ImageSlider extends StatefulWidget {
@@ -50,7 +51,7 @@ class _ImageSliderState extends State<ImageSlider> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                      image: AssetImage(widget.img), fit: BoxFit.contain),
+                      image: NetworkImage(widget.img), fit: BoxFit.contain),
                 ),
               );
             },
@@ -115,7 +116,7 @@ class _ImageSliderState extends State<ImageSlider> {
                     mainScreenController.changeIndex(1);
                     Get.back();
                     Get.back();
-                    Get.offAndToNamed(Routes.mainScreen);
+                    Get.toNamed(Routes.mainScreen);
                   },
                   child: Container(
                     padding: const EdgeInsets.all(8),
@@ -123,10 +124,14 @@ class _ImageSliderState extends State<ImageSlider> {
                       color: primaryColor,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      Icons.shopping_cart,
-                      color: Get.isDarkMode ? Colors.black : Colors.white,
-                    ),
+                    child: Container(
+                        width: 20.sp,
+                        height: 20.sp,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  'assets/images/shopping_white.png')),
+                        )),
                   ),
                 ),
               ],

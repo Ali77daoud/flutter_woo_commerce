@@ -11,6 +11,10 @@ class ProductWidget extends StatelessWidget {
   final double productPriceSize;
   final double iconsPadding;
   final bool isNetworkImg;
+  // ignore: prefer_typing_uninitialized_variables
+  final onTapCart;
+  // ignore: prefer_typing_uninitialized_variables
+  final onTapHeart;
   const ProductWidget(
       {Key? key,
       required this.img,
@@ -19,7 +23,9 @@ class ProductWidget extends StatelessWidget {
       required this.iconsPadding,
       required this.productNameSize,
       required this.productPriceSize,
-      required this.isNetworkImg})
+      required this.isNetworkImg,
+      required this.onTapCart,
+      required this.onTapHeart})
       : super(key: key);
 
   @override
@@ -34,20 +40,27 @@ class ProductWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                    width: 20.sp,
-                    height: 20.sp,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/shopping_icon.png')),
-                    )),
-                Container(
-                    width: 20.sp,
-                    height: 20.sp,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/heart_red.png')),
-                    ))
+                InkWell(
+                  onTap: onTapCart,
+                  child: Container(
+                      width: 20.sp,
+                      height: 20.sp,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image:
+                                AssetImage('assets/images/shopping_icon.png')),
+                      )),
+                ),
+                InkWell(
+                  onTap: onTapHeart,
+                  child: Container(
+                      width: 20.sp,
+                      height: 20.sp,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/heart_red.png')),
+                      )),
+                )
               ],
             ),
           ),
@@ -70,7 +83,7 @@ class ProductWidget extends StatelessWidget {
                 ? Image.network(
                     img,
                     fit: BoxFit.contain,
-                    width: 110,
+                    width: 30.w,
                   )
                 : Image.asset(
                     'assets/images/shirt2.jpg',

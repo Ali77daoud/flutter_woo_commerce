@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_woocommerce/utils/app_theme.dart';
 
-import 'favouritewidgets/favorite_card.dart';
+import '../../widget/card_widget.dart';
 
 class FavoritePage extends StatelessWidget {
   const FavoritePage({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class FavoritePage extends StatelessWidget {
       color: primaryColor,
       child: ListView.separated(
           itemBuilder: (context, index) {
-            return FavouriteCard(
+            return CardWidget(
               ifNetworkImage: false,
               firstIcon: Container(
                   width: 20,

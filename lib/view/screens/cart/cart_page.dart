@@ -1,97 +1,133 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_woocommerce/logic/controllers/mainscreen_controller.dart';
+import 'package:flutter_woocommerce/logic/controllers/store_controller.dart';
 import 'package:flutter_woocommerce/utils/app_theme.dart';
-import 'package:flutter_woocommerce/view/screens/favourite/favouritewidgets/favorite_card.dart';
+import 'package:flutter_woocommerce/utils/circle_indicator_screen.dart';
+import 'package:flutter_woocommerce/view/screens/cart/component/empty_cart_screen.dart';
+import 'package:flutter_woocommerce/view/widget/card_widget.dart';
+import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../widget/buy_widget.dart';
+import '../../widget/card_widget.dart';
 
 class CartPage extends StatelessWidget {
+  final storeController = Get.put(StoreController());
+
   CartPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: GlowingOverscrollIndicator(
-            axisDirection: AxisDirection.down,
-            color: primaryColor,
-            child: ListView.separated(
-              itemBuilder: (context, index) => FavouriteCard(
-                ifNetworkImage: false,
-                img: 'assets/images/shirt2.jpg',
-                title: 'قميص',
-                underText: '25000 ل.س',
-                textcolor: Colors.black,
-                firstIcon: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return GetBuilder<StoreController>(builder: (_) {
+      return storeController.cartData!.itemCount == 0
+          ? EmptyCartPage()
+          : Stack(
+              children: [
+                Column(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        // cartcontroller.removeProductFromCart(
-                        //     cartcontroller.productsMap.keys.toList()[index]);
-                      },
-                      child: Container(
-                        width: 15.sp,
-                        height: 15.sp,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(90),
-                          color: Colors.black,
-                        ),
-                        child: Icon(
-                          Icons.exposure_minus_1,
-                          color: Colors.white,
-                          size: 10.sp,
+                    Expanded(
+                      child: GlowingOverscrollIndicator(
+                        axisDirection: AxisDirection.down,
+                        color: primaryColor,
+                        child: ListView.separated(
+                          itemBuilder: (context, index) => CardWidget(
+                            ifNetworkImage: true,
+                            img: storeController
+                                .cartData!.items[index].featuredImage
+                                .toString(),
+                            title: storeController.cartData!.items[index].name,
+                            underText:
+                                '${storeController.cartData!.items[index].price} ل.س',
+                            textcolor: Colors.black,
+                            firstIcon: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    width: 15.sp,
+                                    height: 15.sp,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(90),
+                                      color: Colors.black,
+                                    ),
+                                    child: Icon(
+                                      Icons.exposure_minus_1,
+                                      color: Colors.white,
+                                      size: 10.sp,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                    storeController
+                                        .cartData!.items[index].quantity.value
+                                        .toString(),
+                                    style: TextStyle(fontSize: 10.sp)),
+                                InkWell(
+                                  onTap: () {
+                                    // cartcontroller.addProductToCart(
+                                    //     cartcontroller.productsMap.keys.toList()[index]);
+                                  },
+                                  child: Container(
+                                    width: 15.sp,
+                                    height: 15.sp,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(90),
+                                      color: Colors.black,
+                                    ),
+                                    child: Icon(
+                                      Icons.plus_one,
+                                      color: Colors.white,
+                                      size: 10.sp,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            secondIcon: InkWell(
+                              onTap: () async {
+                                // print(storeController
+                                //     .cartData!.items[index].itemKey);
+                                storeController.showCircleCartIndicator();
+
+                                await storeController.clearItemFromCart(
+                                    itemKey: storeController
+                                        .cartData!.items[index].itemKey
+                                        .toString());
+                              },
+                              child: Container(
+                                  width: 20.sp,
+                                  height: 20.sp,
+                                  decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/trash_icon.png')),
+                                  )),
+                            ),
+                            flex: 3,
+                          ),
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 20,
+                            );
+                          },
+                          itemCount: storeController.cartData!.items.length,
                         ),
                       ),
                     ),
-                    Text('1', style: TextStyle(fontSize: 10.sp)),
-                    InkWell(
-                      onTap: () {
-                        // cartcontroller.addProductToCart(
-                        //     cartcontroller.productsMap.keys.toList()[index]);
+                    BuyWidget(
+                      firstText: 'المجموع النهائي',
+                      buttonText: 'شراء',
+                      price: '20000 ل.س',
+                      ontab: () {
+                        print(MediaQuery.of(context).size.width);
                       },
-                      child: Container(
-                        width: 15.sp,
-                        height: 15.sp,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(90),
-                          color: Colors.black,
-                        ),
-                        child: Icon(
-                          Icons.plus_one,
-                          color: Colors.white,
-                          size: 10.sp,
-                        ),
-                      ),
-                    )
+                    ),
                   ],
                 ),
-                secondIcon: Container(
-                    width: 20.sp,
-                    height: 20.sp,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/trash_icon.png')),
-                    )),
-                flex: 3,
-              ),
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 20,
-                );
-              },
-              itemCount: 5,
-            ),
-          ),
-        ),
-        BuyWidget(
-          firstText: 'المجموع النهائي',
-          buttonText: 'شراء',
-          price: '20000 ل.س',
-          ontab: () {
-            print(MediaQuery.of(context).size.width);
-          },
-        ),
-      ],
-    );
+                storeController.isCircleCartShown
+                    ? const CircleIndicatorScreen()
+                    : Container(),
+              ],
+            );
+    });
   }
 }

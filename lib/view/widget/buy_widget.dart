@@ -70,10 +70,14 @@ class BuyWidget extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      Icon(
-                        Icons.shopping_cart_outlined,
-                        size: 20.sp,
-                      ),
+                      Container(
+                          width: 20.sp,
+                          height: 20.sp,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/shopping_white.png')),
+                          )),
                     ],
                   ),
                   color: primaryColor,

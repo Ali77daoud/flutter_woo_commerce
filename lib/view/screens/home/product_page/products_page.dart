@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_woocommerce/logic/controllers/store_controller.dart';
 import 'package:flutter_woocommerce/routes/routes.dart';
 import 'package:flutter_woocommerce/utils/app_theme.dart';
 import 'package:flutter_woocommerce/view/screens/home/product_page/components/product_widget.dart';
@@ -6,14 +7,12 @@ import 'package:flutter_woocommerce/view/widget/custom_app_bar.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import 'components/product_widget.dart';
-
 class ProductsPage extends StatelessWidget {
   ProductsPage({Key? key}) : super(key: key);
   final TextEditingController searchkey = TextEditingController();
 
   final String dropdownvalue = 'Item 1';
-
+  final storeController = Get.find<StoreController>();
   // List of items in our dropdown menu
   final items = [
     'Item 1',
@@ -120,22 +119,35 @@ class ProductsPage extends StatelessWidget {
                           childAspectRatio: 0.75,
                         ),
                         scrollDirection: Axis.vertical,
-                        itemCount: 10,
+                        itemCount: storeController.productsCategoryData!.length,
                         itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.productDetailsPage);
-                            },
-                            child: ProductWidget(
-                              isNetworkImg: false,
-                              img: 'assets/images/shirt2.jpg',
-                              productName: 'قميص',
-                              productPrice: '25 ل.س',
-                              iconsPadding: 20,
-                              productNameSize: 10.sp,
-                              productPriceSize: 10.sp,
-                            ),
-                          );
+                          return GetBuilder<StoreController>(builder: (_) {
+                            return InkWell(
+                              onTap: () async {
+                                Get.toNamed(Routes.productDetailsPage,
+                                    arguments: storeController
+                                        .productsCategoryData![index]);
+                              },
+                              child: ProductWidget(
+                                onTapCart: () {},
+                                onTapHeart: () {},
+                                isNetworkImg: true,
+                                img: storeController
+                                    .productsCategoryData![index]
+                                    .images![0]
+                                    .imgUrl
+                                    .toString(),
+                                productName: storeController
+                                    .productsCategoryData![index].productName
+                                    .toString(),
+                                productPrice:
+                                    '${storeController.productsCategoryData![index].price}',
+                                iconsPadding: 20,
+                                productNameSize: 10.sp,
+                                productPriceSize: 10.sp,
+                              ),
+                            );
+                          });
                         }),
                   ],
                 ),

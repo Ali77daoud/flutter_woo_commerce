@@ -2,7 +2,7 @@ import 'package:flutter_woocommerce/view/screens/auth/login_page.dart';
 import 'package:flutter_woocommerce/view/screens/auth/signup_page.dart';
 import 'package:flutter_woocommerce/view/screens/home/product_details/product_details_page.dart';
 import 'package:flutter_woocommerce/view/screens/home/product_page/products_page.dart';
-import 'package:flutter_woocommerce/view/screens/main_screen.dart';
+import 'package:flutter_woocommerce/view/screens/main_screen/main_screen.dart';
 import 'package:flutter_woocommerce/utils/no_connection_screen.dart';
 import 'package:flutter_woocommerce/view/screens/splash_screen.dart';
 import 'package:get/route_manager.dart';

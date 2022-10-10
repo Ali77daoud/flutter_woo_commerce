@@ -4,9 +4,9 @@ import 'package:flutter_woocommerce/view/widget/button_widget.dart';
 import 'package:flutter_woocommerce/view/widget/text_widget.dart';
 import 'package:sizer/sizer.dart';
 
-class NoConnectionPage extends StatelessWidget {
+class NoConnectionScreen extends StatelessWidget {
   final onTap;
-  const NoConnectionPage({Key? key, required this.onTap}) : super(key: key);
+  const NoConnectionScreen({Key? key, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
