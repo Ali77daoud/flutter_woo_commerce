@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ImageSlider extends StatefulWidget {
   final String img;
-  const ImageSlider({required this.img, Key? key}) : super(key: key);
+  final int cartItemsCount;
+  const ImageSlider({required this.img, required this.cartItemsCount, Key? key})
+      : super(key: key);
 
   @override
   State<ImageSlider> createState() => _ImageSliderState();
@@ -111,27 +114,35 @@ class _ImageSliderState extends State<ImageSlider> {
                 //     style: const TextStyle(color: Colors.white),
                 //   ),
                 //   child:
-                InkWell(
-                  onTap: () {
-                    mainScreenController.changeIndex(1);
-                    Get.back();
-                    Get.back();
-                    Get.toNamed(Routes.mainScreen);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      shape: BoxShape.circle,
-                    ),
+                Badge(
+                  toAnimate: true,
+                  animationType: BadgeAnimationType.scale,
+                  shape: BadgeShape.circle,
+                  badgeColor: primaryColor,
+                  badgeContent: Text(widget.cartItemsCount.toString(),
+                      style: TextStyle(color: Colors.white)),
+                  child: InkWell(
+                    onTap: () {
+                      mainScreenController.changeIndex(1);
+                      Get.back();
+                      Get.back();
+                      Get.toNamed(Routes.mainScreen);
+                    },
                     child: Container(
-                        width: 20.sp,
-                        height: 20.sp,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/shopping_white.png')),
-                        )),
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Container(
+                          width: 20.sp,
+                          height: 20.sp,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/shopping_white.png')),
+                          )),
+                    ),
                   ),
                 ),
               ],

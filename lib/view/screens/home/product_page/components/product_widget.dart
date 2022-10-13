@@ -11,22 +11,24 @@ class ProductWidget extends StatelessWidget {
   final double productPriceSize;
   final double iconsPadding;
   final bool isNetworkImg;
+  final bool isFav;
   // ignore: prefer_typing_uninitialized_variables
   final onTapCart;
   // ignore: prefer_typing_uninitialized_variables
   final onTapHeart;
-  const ProductWidget(
-      {Key? key,
-      required this.img,
-      required this.productName,
-      required this.productPrice,
-      required this.iconsPadding,
-      required this.productNameSize,
-      required this.productPriceSize,
-      required this.isNetworkImg,
-      required this.onTapCart,
-      required this.onTapHeart})
-      : super(key: key);
+  const ProductWidget({
+    Key? key,
+    required this.img,
+    required this.productName,
+    required this.productPrice,
+    required this.iconsPadding,
+    required this.productNameSize,
+    required this.productPriceSize,
+    required this.isNetworkImg,
+    required this.onTapCart,
+    required this.onTapHeart,
+    required this.isFav,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +58,13 @@ class ProductWidget extends StatelessWidget {
                   child: Container(
                       width: 20.sp,
                       height: 20.sp,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage('assets/images/heart_red.png')),
+                            image: isFav
+                                ? const AssetImage(
+                                    'assets/images/heart_filled.png')
+                                : const AssetImage(
+                                    'assets/images/heart_red.png')),
                       )),
                 )
               ],

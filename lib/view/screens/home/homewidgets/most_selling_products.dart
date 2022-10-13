@@ -12,7 +12,8 @@ class MostSellingProductsWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
   final storeController = Get.put(StoreController());
-  final token = GetStorage().read('token');
+  final cartKey = GetStorage().read('cartKey');
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,9 +45,12 @@ class MostSellingProductsWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    Get.toNamed(Routes.productDetailsPage,
-                        arguments:
-                            storeController.productsMostSellingData![index]);
+                    Get.toNamed(Routes.productDetailsPage, arguments: {
+                      "0": storeController.productsMostSellingData![index],
+                      "1": storeController.productsMostSellingData,
+                    }
+                        // 'storeController.productsMostSellingData',
+                        );
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -58,13 +62,23 @@ class MostSellingProductsWidget extends StatelessWidget {
                             onTapCart: () async {
                               storeController.showCircleCartIndicator();
                               await storeController.addToCart(
-                                  token: token.toString(),
+                                  cartKey: cartKey,
                                   productId: storeController
                                       .productsMostSellingData![index].id
                                       .toString(),
                                   quantity: '1');
                             },
-                            onTapHeart: () {},
+                            isFav: storeController.ifFavorite(storeController
+                                .productsMostSellingData![index].id!
+                                .toInt()),
+                            onTapHeart: () {
+                              storeController.manageFavorite(
+                                  productId: storeController
+                                      .productsMostSellingData![index].id!
+                                      .toInt(),
+                                  productList:
+                                      storeController.productsMostSellingData!);
+                            },
                             isNetworkImg: true,
                             img: storeController.productsMostSellingData![index]
                                 .images![0].imgUrl

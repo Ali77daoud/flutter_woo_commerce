@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_woocommerce/logic/controllers/mainscreen_controller.dart';
 import 'package:flutter_woocommerce/utils/app_theme.dart';
@@ -5,9 +6,10 @@ import 'package:flutter_woocommerce/view/widget/custom_app_bar.dart';
 import 'package:get/get.dart';
 
 class NavBar extends StatelessWidget {
-  NavBar({Key? key}) : super(key: key);
+  NavBar({Key? key, required this.cartItemsCount}) : super(key: key);
 
   final mainController = Get.put(MainScreenController());
+  final int cartItemsCount;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MainScreenController>(builder: (_) {
@@ -28,15 +30,23 @@ class NavBar extends StatelessWidget {
                       ),
                 label: ''),
             BottomNavigationBarItem(
-                icon: mainController.i == 1
-                    ? Image.asset(
-                        'assets/images/shopping_icon.png',
-                        width: 28,
-                      )
-                    : Image.asset(
-                        'assets/images/shoppinicon_disabled.png',
-                        width: 26,
-                      ),
+                icon: Badge(
+                  toAnimate: true,
+                  animationType: BadgeAnimationType.scale,
+                  shape: BadgeShape.circle,
+                  badgeColor: primaryColor,
+                  badgeContent: Text(cartItemsCount.toString(),
+                      style: TextStyle(color: Colors.white)),
+                  child: mainController.i == 1
+                      ? Image.asset(
+                          'assets/images/shopping_icon.png',
+                          width: 28,
+                        )
+                      : Image.asset(
+                          'assets/images/shoppinicon_disabled.png',
+                          width: 26,
+                        ),
+                ),
                 label: ''),
             BottomNavigationBarItem(
                 icon: mainController.i == 2

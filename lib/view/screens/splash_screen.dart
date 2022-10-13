@@ -29,10 +29,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   goToHomeScreen() {
-    // Get.offNamed(GetStorage().read<bool>('auth') == true
-    //     ? Routes.mainScreen
-    //     : Routes.loginScreen);
-    Get.offNamed(Routes.mainScreen);
+    Get.offNamed(GetStorage().read<bool>('auth') == true
+        ? Routes.mainScreen
+        : Routes.loginScreen);
   }
 
   @override

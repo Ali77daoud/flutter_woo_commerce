@@ -7,12 +7,14 @@ import 'package:flutter_woocommerce/view/widget/circle_indicator_widget.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../../logic/controllers/mainscreen_controller.dart';
+
 class MainScreen extends StatelessWidget {
   MainScreen({Key? key}) : super(key: key);
 
   final storeController = Get.put(StoreController());
-  final token = GetStorage().read('token');
-
+  // final mainController = Get.put(MainScreenController());
+  final cartKey = GetStorage().read('cartKey');
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -27,7 +29,7 @@ class MainScreen extends StatelessWidget {
                 ? NoConnectionScreen(
                     onTap: () async {
                       storeController.hideNoInternetPageProducts();
-                      await storeController.getHomePageData(token: token);
+                      await storeController.getHomePageData(cartKey: cartKey);
                     },
                   )
                 : storeController.isCircleProductsShown
@@ -37,7 +39,10 @@ class MainScreen extends StatelessWidget {
                           Center(child: CircleIndicatorWidget())
                         ],
                       )
-                    : NavBar();
+                    : NavBar(
+                        cartItemsCount:
+                            storeController.cartData!.itemCount.toInt(),
+                      );
           }),
         )),
       ),

@@ -12,6 +12,7 @@ class AuthController extends GetxController {
 
   GetStorage tokenBox = GetStorage();
   GetStorage authBox = GetStorage();
+  GetStorage cartKeyBox = GetStorage();
 
   void changeHidePassword() {
     hidePassword = !hidePassword;

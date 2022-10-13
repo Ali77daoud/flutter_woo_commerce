@@ -9,7 +9,15 @@ import 'package:sizer/sizer.dart';
 class ProductsInfo extends StatefulWidget {
   final String title;
   final String discription;
-  const ProductsInfo({required this.title, required this.discription, Key? key})
+  final bool isFav;
+  // ignore: prefer_typing_uninitialized_variables
+  final onTapFav;
+  const ProductsInfo(
+      {required this.title,
+      required this.discription,
+      Key? key,
+      required this.isFav,
+      required this.onTapFav})
       : super(key: key);
 
   @override
@@ -44,13 +52,17 @@ class _ProductsInfoState extends State<ProductsInfo> {
                   shape: BoxShape.circle,
                 ),
                 child: InkWell(
-                    onTap: () {},
+                    onTap: widget.onTapFav,
                     child: Container(
                         width: 20.sp,
                         height: 20.sp,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage('assets/images/heart_red.png')),
+                              image: widget.isFav
+                                  ? const AssetImage(
+                                      'assets/images/heart_filled.png')
+                                  : const AssetImage(
+                                      'assets/images/heart_red.png')),
                         ))),
               ),
             ],

@@ -18,7 +18,7 @@ class MainScreenController extends GetxController {
   List<Widget> screens = [
     HomePage(),
     CartPage(),
-    const FavoritePage(),
+    FavoritePage(),
     ProfilePage()
   ];
 

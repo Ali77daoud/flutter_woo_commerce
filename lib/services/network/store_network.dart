@@ -76,12 +76,11 @@ class StoreApi {
   ///////////////////////////////////////////////////////////
   ///get cart
 
-  static Future<CartModel> getCart({required String token}) async {
+  static Future<CartModel> getCart({required String cartKey}) async {
     late CartModel cartData;
 
     final client = http.Client();
-    final uri = Uri.parse(
-        '$baseUrl/wp-json/cocart/v2/cart?cart_key=d2312e9997cf4b305203e93c27d1ea75');
+    final uri = Uri.parse('$baseUrl/wp-json/cocart/v2/cart?cart_key=$cartKey');
 
     var response = await client.get(uri, headers: {
       'Content-Type': 'application/json',
@@ -109,7 +108,7 @@ class StoreApi {
 
   ///clear cart
 
-  static Future<CartModel> clearCart({required String token}) async {
+  static Future<CartModel> clearCart({required String cartKey}) async {
     late CartModel cartData;
 
     final client = http.Client();
@@ -143,14 +142,14 @@ class StoreApi {
   // add to cart
 
   static Future<CartModel> addToCart(
-      {required String token,
-      required String productId,
-      required String quantity}) async {
+      {required String productId,
+      required String quantity,
+      required String cartKey}) async {
     late CartModel cartData;
 
     final client = http.Client();
-    final uri = Uri.parse(
-        '$baseUrl/wp-json/cocart/v2/cart/add-item?cart_key=d2312e9997cf4b305203e93c27d1ea75');
+    final uri =
+        Uri.parse('$baseUrl/wp-json/cocart/v2/cart/add-item?cart_key=$cartKey');
 
     var response = await client.post(uri, headers: {
       // 'Authorization': 'Bearer $token',
@@ -182,12 +181,13 @@ class StoreApi {
 
   // clear item from cart
 
-  static Future<CartModel> clearFromCart({required String itemKey}) async {
+  static Future<CartModel> clearFromCart(
+      {required String itemKey, required String cartKey}) async {
     late CartModel cartData;
 
     final client = http.Client();
     final uri = Uri.parse(
-        '$baseUrl/wp-json/cocart/v2/cart/item/$itemKey?cart_key=d2312e9997cf4b305203e93c27d1ea75');
+        '$baseUrl/wp-json/cocart/v2/cart/item/$itemKey?cart_key=$cartKey');
 
     var response = await client.delete(
       uri,
@@ -221,14 +221,14 @@ class StoreApi {
   // update item
 
   static Future<CartModel> updateInCart(
-      {required String token,
-      required String itemKey,
-      required String quantity}) async {
+      {required String itemKey,
+      required String quantity,
+      required String cartKey}) async {
     late CartModel cartData;
 
     final client = http.Client();
-    final uri = Uri.parse(
-        '$baseUrl/cocart/v2/cart/item/$itemKey?cart_key=d2312e9997cf4b305203e93c27d1ea75');
+    final uri =
+        Uri.parse('$baseUrl/cocart/v2/cart/item/$itemKey?cart_key=$cartKey');
 
     var response = await client.post(uri, headers: {
       'Content-Type': 'application/json',

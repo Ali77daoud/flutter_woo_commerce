@@ -104,9 +104,7 @@ class LoginPage extends StatelessWidget {
                                   obscureText: authController.hidePassword,
                                   decoration: InputDecoration(
                                     labelText: "كلمة السر",
-                                    prefixIcon: const Icon(
-                                      Icons.lock,
-                                    ),
+                                    prefixIcon: const Icon(Icons.lock),
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         authController.changeHidePassword();

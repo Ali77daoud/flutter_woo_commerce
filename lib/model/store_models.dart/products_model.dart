@@ -37,14 +37,37 @@ class ProductsModel {
         regularPrice: json['regular_price'],
         salePrice: json['sale_price'],
         stockStatus: json['stock_status'],
-        categories: json['image'] != null
+        categories: json['categories'] != null
             ? (json['categories'] as List)
                 .map((e) => CategoryModel.fromJson(e))
                 .toList()
             : null,
-        images: (json['images'] as List)
-            .map((e) => ImageModel.fromJson(e))
-            .toList());
+        images:
+            // (json['images'] as List)
+            //     .map((e) => ImageModel.fromJson(e))
+            //     .toList());
+
+            json['images'] != null
+                ? (json['images'] as List)
+                    .map((e) => ImageModel.fromJson(e))
+                    .toList()
+                : null);
+  }
+
+  Map<String, dynamic> productModeltoJson() {
+    return {
+      'id': id,
+      'name': productName,
+      'description': description,
+      'short_description': shortDescription,
+      'sku': sku,
+      'price': price,
+      'regular_price': regularPrice,
+      'sale_price': salePrice,
+      'stock_status': stockStatus,
+      'images': images!.map((e) => e.imagesModeltoJson()).toList(),
+      'categories': categories!.map((e) => e.categoryModeltoJson()).toList(),
+    };
   }
 }
 
@@ -57,6 +80,13 @@ class ImageModel {
   factory ImageModel.fromJson(Map<String, dynamic>? json) {
     return ImageModel(id: json!['id'], imgUrl: json['src']);
   }
+
+  Map<String, dynamic> imagesModeltoJson() {
+    return {
+      'id': id,
+      'src': imgUrl,
+    };
+  }
 }
 
 class CategoryModel {
@@ -67,5 +97,12 @@ class CategoryModel {
 
   factory CategoryModel.fromJson(Map<String, dynamic>? json) {
     return CategoryModel(id: json!['id'], name: json['name']);
+  }
+
+  Map<String, dynamic> categoryModeltoJson() {
+    return {
+      'id': id,
+      'name': name,
+    };
   }
 }

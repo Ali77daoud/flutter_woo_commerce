@@ -4,13 +4,14 @@ import 'package:flutter_woocommerce/routes/routes.dart';
 import 'package:flutter_woocommerce/utils/app_theme.dart';
 import 'package:flutter_woocommerce/view/widget/text_widget.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../product_page/components/product_widget.dart';
 
 class LatestProductsWidget extends StatelessWidget {
   LatestProductsWidget({Key? key}) : super(key: key);
   final storeController = Get.put(StoreController());
-
+  final cartKey = GetStorage().read('cartKey');
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,8 +44,10 @@ class LatestProductsWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    Get.toNamed(Routes.productDetailsPage,
-                        arguments: storeController.productsLatestData![index]);
+                    Get.toNamed(Routes.productDetailsPage, arguments: {
+                      "0": storeController.productsLatestData![index],
+                      "1": storeController.productsLatestData,
+                    });
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -53,8 +56,26 @@ class LatestProductsWidget extends StatelessWidget {
                         height: 140,
                         child: GetBuilder<StoreController>(builder: (_) {
                           return ProductWidget(
-                              onTapCart: () {},
-                              onTapHeart: () {},
+                              onTapCart: () async {
+                                storeController.showCircleCartIndicator();
+                                await storeController.addToCart(
+                                    cartKey: cartKey,
+                                    productId: storeController
+                                        .productsLatestData![index].id
+                                        .toString(),
+                                    quantity: '1');
+                              },
+                              isFav: storeController.ifFavorite(storeController
+                                  .productsLatestData![index].id!
+                                  .toInt()),
+                              onTapHeart: () {
+                                storeController.manageFavorite(
+                                    productId: storeController
+                                        .productsLatestData![index].id!
+                                        .toInt(),
+                                    productList:
+                                        storeController.productsLatestData!);
+                              },
                               isNetworkImg: true,
                               img: storeController
                                   .productsLatestData![index].images![0].imgUrl

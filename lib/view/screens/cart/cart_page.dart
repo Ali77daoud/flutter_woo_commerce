@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_woocommerce/logic/controllers/mainscreen_controller.dart';
 import 'package:flutter_woocommerce/logic/controllers/store_controller.dart';
 import 'package:flutter_woocommerce/utils/app_theme.dart';
 import 'package:flutter_woocommerce/utils/circle_indicator_screen.dart';
 import 'package:flutter_woocommerce/view/screens/cart/component/empty_cart_screen.dart';
 import 'package:flutter_woocommerce/view/widget/card_widget.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 import '../../widget/buy_widget.dart';
 import '../../widget/card_widget.dart';
 
 class CartPage extends StatelessWidget {
   final storeController = Get.put(StoreController());
-
+  final cartKey = GetStorage().read('cartKey');
   CartPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -89,6 +89,7 @@ class CartPage extends StatelessWidget {
                                 storeController.showCircleCartIndicator();
 
                                 await storeController.clearItemFromCart(
+                                    cartKey: cartKey,
                                     itemKey: storeController
                                         .cartData!.items[index].itemKey
                                         .toString());
@@ -116,7 +117,7 @@ class CartPage extends StatelessWidget {
                     BuyWidget(
                       firstText: 'المجموع النهائي',
                       buttonText: 'شراء',
-                      price: '20000 ل.س',
+                      price: '${storeController.cartData!.totals.total} ل.س',
                       ontab: () {
                         print(MediaQuery.of(context).size.width);
                       },

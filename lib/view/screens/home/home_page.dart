@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_woocommerce/logic/controllers/store_controller.dart';
 import 'package:flutter_woocommerce/utils/app_theme.dart';
 import 'package:flutter_woocommerce/utils/circle_indicator_screen.dart';
-import 'package:flutter_woocommerce/utils/no_connection_screen.dart';
 import 'package:flutter_woocommerce/view/screens/home/homewidgets/latest_products.dart';
 import 'package:flutter_woocommerce/view/screens/home/homewidgets/most_selling_products.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import '../../widget/circle_indicator_widget.dart';
 import 'homeWidgets/slider.dart';
 import 'homewidgets/cateogries_item.dart';
 
@@ -15,7 +13,7 @@ class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
   final storeController = Get.put(StoreController());
 
-  final token = GetStorage().read('token');
+  final cartKey = GetStorage().read('cartKey');
   @override
   Widget build(BuildContext context) {
     return GetBuilder<StoreController>(builder: (_) {
@@ -25,8 +23,7 @@ class HomePage extends StatelessWidget {
             backgroundColor: whiteColor,
             color: primaryColor,
             onRefresh: () async {
-              print(token.toString());
-              await storeController.getHomePageData(token: token);
+              await storeController.getHomePageData(cartKey: cartKey);
             },
             child: GlowingOverscrollIndicator(
               axisDirection: AxisDirection.down,
