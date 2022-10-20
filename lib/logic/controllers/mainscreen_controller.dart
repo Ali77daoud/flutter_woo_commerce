@@ -22,5 +22,5 @@ class MainScreenController extends GetxController {
     ProfilePage()
   ];
 
-  List<String> titles = ['تسوّق', 'السّلّة', 'الإعجابات', 'الملف الشّخصي'];
+  List<String> titles = ['تسوّق', 'السّلّة', 'المفضّلة', 'الملف الشّخصي'];
 }

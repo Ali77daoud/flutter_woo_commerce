@@ -48,9 +48,7 @@ class MostSellingProductsWidget extends StatelessWidget {
                     Get.toNamed(Routes.productDetailsPage, arguments: {
                       "0": storeController.productsMostSellingData![index],
                       "1": storeController.productsMostSellingData,
-                    }
-                        // 'storeController.productsMostSellingData',
-                        );
+                    });
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
